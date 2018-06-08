@@ -7,6 +7,7 @@ ph = 7.0
 humidity = 95.00
 ilumination = True
 water_level = 1
+water_temperature = 20
 config = {'AMQP_URI':'amqp://rabbit'}
 
 with ClusterRpcProxy(config) as cluster_rpc:
@@ -15,11 +16,13 @@ with ClusterRpcProxy(config) as cluster_rpc:
         cluster_rpc.humidity_server.receive_humidity(humidity)
         cluster_rpc.ph_server.receive_ph(ph)
         cluster_rpc.ilumination_server.receive_ilumination(ilumination)
-        cluster_rpc.water_level_server.receive_water_level(ilumination)
+        cluster_rpc.water_level_server.receive_water_level(water_level)
+        cluster_rpc.water_temperature_server.receive_water_temperature(water_temperature)
         time.sleep(2)
         temperature = random.uniform(23.0, 26.0)
         ph = random.uniform(6.6, 7.4)
         humidity = random.uniform(93.0, 97.9)
         ilumination = bool(random.getrandbits(1))
-        water_level = random.randint(0,1,2)
+        water_level = random.randint(0,2)
+        water_temperature = random.uniform(23.0, 26.0)
 
