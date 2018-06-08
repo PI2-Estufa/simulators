@@ -21,5 +21,5 @@ with ClusterRpcProxy(config) as cluster_rpc:
         ph = random.uniform(6.6, 7.4)
         humidity = random.uniform(93.0, 97.9)
         ilumination = bool(random.getrandbits(1))
-        water_level = random.randint(0,1,2)
+        water_level = random.randint(0,2)
 
