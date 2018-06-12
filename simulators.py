@@ -7,8 +7,9 @@ ph = 7.0
 humidity = 95.00
 ilumination = True
 water_level = 1
+drawer_status = 1
 water_temperature = 20
-drawer_status = True
+
 
 config = {'AMQP_URI':'amqp://rabbit'}
 
@@ -28,5 +29,5 @@ with ClusterRpcProxy(config) as cluster_rpc:
         ilumination = bool(random.getrandbits(1))
         water_level = random.randint(0,2)
         water_temperature = random.uniform(23.0, 26.0)
-        drawer_status = bool(random.getrandbits(1))
+        drawer_status = random.randint(0,3)
 
