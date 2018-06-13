@@ -30,4 +30,3 @@ with ClusterRpcProxy(config) as cluster_rpc:
         water_level = random.randint(0,2)
         water_temperature = random.uniform(23.0, 26.0)
         drawer_status = random.randint(0,3)
-
