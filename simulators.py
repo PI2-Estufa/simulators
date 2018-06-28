@@ -1,5 +1,6 @@
 import time
 import random
+import os
 from nameko.standalone.rpc import ClusterRpcProxy
 
 temperature = 20
@@ -9,12 +10,16 @@ ilumination = True
 water_level = 1
 drawer_status = 1
 water_temperature = 20
+images = os.listdir('./uploads')
+# images.remove('.keep')
 
+i = 0
 
 config = {'AMQP_URI':'amqp://rabbit'}
 
 with ClusterRpcProxy(config) as cluster_rpc:
     while True:
+        print("Aqui, ó: " + images[i % 3])
         cluster_rpc.temperature_server.receive_temperature(temperature)
         cluster_rpc.humidity_server.receive_humidity(humidity)
         cluster_rpc.ph_server.receive_ph(ph)
@@ -22,6 +27,7 @@ with ClusterRpcProxy(config) as cluster_rpc:
         cluster_rpc.water_level_server.receive_water_level(water_level)
         cluster_rpc.water_temperature_server.receive_water_temperature(water_temperature)
         cluster_rpc.drawer_status_server.receive_drawer_status(drawer_status)
+        cluster_rpc.image_server.receive_image(images[i % 3])
         time.sleep(2)
         temperature = random.uniform(23.0, 26.0)
         ph = random.uniform(6.6, 7.4)
@@ -30,3 +36,4 @@ with ClusterRpcProxy(config) as cluster_rpc:
         water_level = random.randint(0,2)
         water_temperature = random.uniform(23.0, 26.0)
         drawer_status = random.randint(0,3)
+        i += 1
