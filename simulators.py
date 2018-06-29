@@ -10,7 +10,6 @@ ilumination = True
 water_level = 1
 drawer_status = 1
 water_temperature = 20
-images = os.listdir('./uploads')
 # images.remove('.keep')
 
 i = 0
@@ -19,7 +18,7 @@ config = {'AMQP_URI':'amqp://rabbit'}
 
 with ClusterRpcProxy(config) as cluster_rpc:
     while True:
-        print("Aqui, ó: " + images[i % 3])
+        images = os.listdir('./uploads')
         cluster_rpc.temperature_server.receive_temperature(temperature)
         cluster_rpc.humidity_server.receive_humidity(humidity)
         cluster_rpc.ph_server.receive_ph(ph)
@@ -27,8 +26,9 @@ with ClusterRpcProxy(config) as cluster_rpc:
         cluster_rpc.water_level_server.receive_water_level(water_level)
         cluster_rpc.water_temperature_server.receive_water_temperature(water_temperature)
         cluster_rpc.drawer_status_server.receive_drawer_status(drawer_status)
-        cluster_rpc.image_server.receive_image(images[i % 3])
-        time.sleep(2)
+        if len(images) > 0:
+            cluster_rpc.image_server.receive_image(images[i % len(images)])
+        time.sleep(10)
         temperature = random.uniform(23.0, 26.0)
         ph = random.uniform(6.6, 7.4)
         humidity = random.uniform(93.0, 97.9)
