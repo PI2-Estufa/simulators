@@ -14,7 +14,7 @@ water_temperature = 20
 
 i = 0
 
-config = {'AMQP_URI':'amqp://rabbit'}
+config = {'AMQP_URI':os.environ.get("RABBIT_URL")}
 
 with ClusterRpcProxy(config) as cluster_rpc:
     while True:
